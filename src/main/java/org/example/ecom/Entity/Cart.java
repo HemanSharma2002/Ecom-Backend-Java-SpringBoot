@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.*;
+import org.example.ecom.Entity.ForUser.Address;
 import org.example.ecom.Entity.ForUser.User;
 
 import java.util.List;
@@ -30,5 +31,8 @@ public class Cart {
     private Integer totalItem;
     private Integer totalDiscount;
     private Double totalDiscountedPrice;
+    @OneToOne
+    @JoinColumn(name = "selected_Address")
+    private Address selectedAddress;
 
 }

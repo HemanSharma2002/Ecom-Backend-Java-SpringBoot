@@ -4,6 +4,7 @@ import org.example.ecom.Entity.AddItemModel;
 import org.example.ecom.Entity.Cart;
 import org.example.ecom.Entity.CartItem;
 import org.example.ecom.Entity.ForProducts.Product;
+import org.example.ecom.Entity.ForUser.Address;
 import org.example.ecom.Entity.ForUser.User;
 import org.example.ecom.Exceptions.ProductException;
 import org.example.ecom.Exceptions.UserException;
@@ -81,6 +82,14 @@ public class CartServiceImplimentation implements CartService {
             cart.setTotalDiscount((cart.getTotalDiscount()+cartItem.getTotalDiscount())/2);
             System.out.println(cartItem.getId());
         });
+        cartRepository.save(cart);
+    }
+
+    @Override
+    public void updateSelectedAddress(Address address,String username) {
+        User user =userRepository.findByEmail(username);
+        Cart cart= user.getCart();
+        cart.setSelectedAddress(address);
         cartRepository.save(cart);
     }
 }

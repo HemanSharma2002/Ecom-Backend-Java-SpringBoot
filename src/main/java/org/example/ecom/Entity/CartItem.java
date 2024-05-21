@@ -23,7 +23,7 @@ public class CartItem {
     @JoinColumn(name = "cart")
     private Cart cart;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
+//    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "product",nullable = false)
     private Product product;

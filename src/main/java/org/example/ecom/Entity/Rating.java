@@ -28,15 +28,19 @@ public class Rating {
     @JsonIgnore
     @ToString.Exclude
     private Product product;
+    private Long productId;
     private Double rating;
     private String review;
+    private String username;
     private LocalDateTime createdAt;
 
-    public Rating(User user, Product product, Double rating, String review) {
+    public Rating(User user, Product product, Double rating, String review,String username) {
         this.user = user;
         this.product = product;
         this.rating = rating;
         this.review = review;
+        this.username=username;
         this.createdAt = LocalDateTime.now();
+        this.productId=product.getId();
     }
 }

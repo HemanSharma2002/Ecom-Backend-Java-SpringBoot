@@ -25,6 +25,7 @@ public class Product {
     private Integer price;
     private Integer discountedPrice;
     private Integer discountPresent;
+    @Column(name = "description")
     private String description;
     private String pattern;
     private String color;
@@ -33,13 +34,14 @@ public class Product {
     private List<Size> sizes;
     @OneToMany(mappedBy = "product",orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Images>images;
+    @JsonIgnore
+    @ToString.Exclude
     @OneToMany(mappedBy = "product",orphanRemoval = true,fetch = FetchType.EAGER)
     private List<Rating> ratings;
     private  Integer totalRating;
     private Double avgRating;
     private LocalDateTime createdAt;
     @ManyToOne(fetch = FetchType.EAGER)
-//    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "category",nullable = false)
     private Category category;

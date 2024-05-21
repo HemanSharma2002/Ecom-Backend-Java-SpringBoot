@@ -2,6 +2,7 @@ package org.example.ecom.Service;
 
 import org.example.ecom.Entity.Cart;
 import org.example.ecom.Entity.CartItem;
+import org.example.ecom.Entity.ForProducts.Product;
 import org.example.ecom.Exceptions.CartItemException;
 import org.example.ecom.Exceptions.UserException;
 import org.springframework.stereotype.Service;
@@ -14,4 +15,5 @@ public interface CartItemService {
     public void removeCartItem(Long userId,Long cartItemsId)throws CartItemException,UserException;
     public CartItem findCartItemsById(Long cartItemId)throws CartItemException;
     public void cartTotalUpdater(Cart cart,Double tp,Double dp,Integer q,Integer d);
+    public CartItem isProductAlreadyPresentInCart(Cart cart, Product product,String size);
 }

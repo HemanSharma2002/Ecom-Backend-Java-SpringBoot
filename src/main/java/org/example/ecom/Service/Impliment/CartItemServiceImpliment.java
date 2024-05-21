@@ -2,6 +2,7 @@ package org.example.ecom.Service.Impliment;
 
 import org.example.ecom.Entity.Cart;
 import org.example.ecom.Entity.CartItem;
+import org.example.ecom.Entity.ForProducts.Product;
 import org.example.ecom.Entity.ForUser.User;
 import org.example.ecom.Exceptions.CartItemException;
 import org.example.ecom.Exceptions.UserException;
@@ -98,5 +99,16 @@ public class CartItemServiceImpliment implements CartItemService {
         cart.setTotalDiscount(cart.getTotalDiscount()/cart.getTotalItem());
 
         cartRepository.save(cart);
+    }
+    @Override
+    public CartItem isProductAlreadyPresentInCart(Cart cart, Product product,String size){
+        CartItem item=cartItemRepository.findByCartAndProductAndSize(cart,product,size);
+
+        if(item!=null){
+            return item;
+        }
+        else {
+            return null;
+        }
     }
 }

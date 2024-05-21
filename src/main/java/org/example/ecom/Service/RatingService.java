@@ -12,6 +12,6 @@ import java.util.List;
 
 @Service
 public interface RatingService {
-    public Rating createRating(Long userId, Long productId, RatingModel ratingModel)throws UserException,ProductException;
+    public Rating createRating(Long userId, Long productId, RatingModel ratingModel,Long orderId)throws UserException,ProductException;
     public List<Rating> getAllRatings(Long productId)throws ProductException;
 }

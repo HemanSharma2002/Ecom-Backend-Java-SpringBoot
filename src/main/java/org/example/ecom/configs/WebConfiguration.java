@@ -22,11 +22,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfiguration {
     @Autowired
     private CustomUserDetailService userDetailService;
+//    private static final String[] WHITELISTED_URLS={"/createNewUser","/api/**"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
         https.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         https.csrf(csrf-> csrf.disable());
-        https.authorizeHttpRequests(auth->auth.requestMatchers("/createNewUser","/api/**").permitAll().anyRequest().authenticated());
+        https.authorizeHttpRequests(auth->auth.requestMatchers("/createNewUser","/api/**","/imageStore/**").permitAll().requestMatchers("/admin/**").hasAnyAuthority("ADMIN","SCOPE_ADMIN").anyRequest().authenticated());
         https.httpBasic(Customizer.withDefaults());
         https.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return https.build();
@@ -36,7 +37,7 @@ public class WebConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:5123/");
+                registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:5173/","http://localhost:3000/","https://ecommerse-front-end-next-rddaxsv1t-heman-sharmas-projects.vercel.app/");
             }
         };
     }

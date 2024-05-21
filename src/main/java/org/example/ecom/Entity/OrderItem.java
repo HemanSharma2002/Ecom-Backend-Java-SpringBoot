@@ -23,7 +23,6 @@ public class OrderItem {
     @JoinColumn(name = "orders")
     private Orders orders;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "product",nullable = false)
     private Product product;
@@ -33,6 +32,7 @@ public class OrderItem {
     private Double dicountedPrice;
     private Long userId;
     private LocalDateTime deliveryDate;
+    private boolean reviewed;
 
     public OrderItem(Orders orders, Product product, String size, Integer quantity, Double price, Double dicountedPrice, Long userId) {
         this.orders = orders;
@@ -42,5 +42,6 @@ public class OrderItem {
         this.price = price;
         this.dicountedPrice = dicountedPrice;
         this.userId = userId;
+        this.reviewed=false;
     }
 }

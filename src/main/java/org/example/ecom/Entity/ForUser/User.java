@@ -1,5 +1,6 @@
 package org.example.ecom.Entity.ForUser;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.ecom.Entity.Cart;
 import org.example.ecom.Entity.Orders;
 import org.example.ecom.Entity.Rating;
+import org.example.ecom.Entity.ShippingAddress;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,23 +32,32 @@ public class User implements UserDetails {
     private Long id;
     private String firstName;
     private String lastName;
+    @JsonIgnore
     private String password;
     private String email;
     private String role;
     private String mobile;
+    @OneToOne
+    @JsonIgnore
+    private Address activeAddress;
     @OneToMany(mappedBy = "user",orphanRemoval = true,fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Address> address;
 
     @OneToMany(mappedBy = "user",orphanRemoval = true,fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<PaymentInformation>paymentInformation;
 
     @OneToMany(mappedBy = "user",orphanRemoval = true,fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Rating>ratings;
 
     private LocalDateTime date;
     @OneToMany(mappedBy = "user",orphanRemoval = true,fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Orders> orders;
     @OneToOne(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Cart cart;
 
     @Override

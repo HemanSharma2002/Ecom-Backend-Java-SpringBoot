@@ -24,11 +24,11 @@ public class RatingControler {
         this.ratingService = ratingService;
     }
 
-    @PostMapping("/{productId}/rating")
-    public Rating createRating(Authentication authentication, @PathVariable("productId") Long productId,@RequestBody RatingModel ratingModel) throws UserException, ProductException {
+    @PostMapping("/{productId}/{orderId}/rating")
+    public Rating createRating(Authentication authentication,@PathVariable("orderId") Long orderId, @PathVariable("productId") Long productId,@RequestBody RatingModel ratingModel) throws UserException, ProductException {
 
        User user= userService.findUserByUserName(authentication.getName());
-       return ratingService.createRating(user.getId(),productId,ratingModel);
+       return ratingService.createRating(user.getId(),productId,ratingModel,orderId);
     }
     @GetMapping("/{productId}/rating")
     public List<Rating> getAllRattings( @PathVariable("productId") Long productId) throws UserException, ProductException {

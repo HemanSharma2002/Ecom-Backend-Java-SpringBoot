@@ -22,7 +22,7 @@ public class ProductModel {
     private String description;
     private String color;
     private List<Size> sizes;
-    private List<Images> images;
+    private List<String> images;
     private String topLevelCategory;
     private String secondLevelCategory;
     private String thirdLevelCategory;

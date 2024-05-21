@@ -3,6 +3,8 @@ package org.example.ecom.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.ecom.Entity.Enum.OrderStatus;
+import org.example.ecom.Entity.Enum.Payment;
 import org.example.ecom.Entity.ForUser.User;
 
 import java.time.LocalDateTime;
@@ -29,12 +31,13 @@ public class Orders {
     private LocalDateTime deliveryDate;
     @Embedded
     private ShippingAddress shippingAddress;
+    private Payment paymentType;
     @Embedded
     private PaymentDetails paymentDetails;
     private Double totalPrice;
     private Double totalDiscountedPrice;
     private Integer discount;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private Integer totalItem;
     private LocalDateTime createdAt;
 
@@ -47,7 +50,7 @@ public class Orders {
         this.totalPrice = totalPrice;
         this.totalDiscountedPrice = totalDiscountedPrice;
         this.discount = discount;
-        this.orderStatus = "PENDING";
+        this.orderStatus = OrderStatus.PENDING;
         this.totalItem = totalItem;
         this.createdAt = LocalDateTime.now();
     }

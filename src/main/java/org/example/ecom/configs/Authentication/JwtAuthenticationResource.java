@@ -1,10 +1,14 @@
 package org.example.ecom.configs.Authentication;
 
+import jakarta.mail.MessagingException;
 import org.example.ecom.Entity.ForUser.User;
 import org.example.ecom.Entity.ForUser.UserModel;
 import org.example.ecom.Repository.User.UserRepository;
 import org.example.ecom.Service.CartService;
+import org.example.ecom.Service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -27,20 +31,33 @@ public class JwtAuthenticationResource {
     private UserRepository userRepository;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private EmailService emailService;
     @PostMapping("/login")
     public JwtResponse authenticate(Authentication authentication){
 //        return authentication;
-        return new JwtResponse(createToken(authentication));
+        User user=userRepository.findByEmail(authentication.getName());
+        return new JwtResponse(createToken(authentication),user.getUsername(),user.getRole());
+    }
+    @PostMapping("/login-status")
+    public ResponseEntity<Boolean> check(Authentication authentication){
+//        return authentication;
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PostMapping("/createNewUser")
-    public String newUser(@RequestBody UserModel userModel){
+    public String newUser(@RequestBody UserModel userModel) throws MessagingException {
+        User u=userRepository.findByEmail(userModel.getEmail());
+        if(u!=null){
+            return "Already exist";
+        }
         User user=new User(userModel.getFirstName(), userModel.getLastName(),passwordEncoder.encode(userModel.getPassword())
                 , userModel.getEmail(), userModel.getMobile());
         user=userRepository.save(user);
         if (user!=null){
             cartService.createCart(user);
-
+            emailService.sendEmailWithoutAttachment(userModel.getEmail(),"Dear "+userModel.getFirstName()+"\nYour account has been created \n Now you can log in and view our products" +
+                    "\nThank you ","Welcome the store");
             return "sucess";
         }
         return "fail";
@@ -50,7 +67,7 @@ public class JwtAuthenticationResource {
         var claims= JwtClaimsSet.builder().issuer("self").issuedAt(Instant.now())
                 .expiresAt(Instant.now().plusSeconds(60*60*24))
                 .subject(authentication.getName())
-                .claim("scope",createScope(authentication))
+                .claim("scp",createScope(authentication))
                 .build();
         var parameters= JwtEncoderParameters.from(claims);
         return jwtEncoder.encode(parameters).getTokenValue();
@@ -61,6 +78,5 @@ public class JwtAuthenticationResource {
                 .map(a->a.getAuthority())
                 .collect(Collectors.joining(" "));
     }
-
-    record JwtResponse(String token){}
+    record JwtResponse(String token,String Username,String Role){}
 }
