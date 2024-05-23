@@ -2,10 +2,12 @@ package org.example.ecom.Controler;
 
 import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.parser.Authorization;
+import org.example.ecom.Entity.ApiResponse;
 import org.example.ecom.Entity.ForUser.Address;
 import org.example.ecom.Entity.ForUser.User;
 import org.example.ecom.Exceptions.UserException;
 import org.example.ecom.Service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +47,10 @@ public class UserControler {
     public UserInfo getUsername(Authentication authentication) throws UserException {
         User user=userService.findUserByUserName(authentication.getName());
         System.out.println(authentication.getAuthorities());
-        return new UserInfo(user.getUsername(), user.getRole());
+        return new UserInfo(user.getUsername(), user.getFirstName(), user.getLastName(), user.getRole());
     }
+
 }
-record UserInfo(String Username,String Role){
+record UserInfo(String username,String firstName, String lastname,String Role){
 
 }

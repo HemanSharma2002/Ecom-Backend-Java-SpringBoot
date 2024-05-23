@@ -27,7 +27,7 @@ public class WebConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
         https.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         https.csrf(csrf-> csrf.disable());
-        https.authorizeHttpRequests(auth->auth.requestMatchers("/createNewUser","/api/**","/imageStore/**").permitAll().requestMatchers("/admin/**").hasAnyAuthority("ADMIN","SCOPE_ADMIN").anyRequest().authenticated());
+        https.authorizeHttpRequests(auth->auth.requestMatchers("/createNewUser","/api/**","/imageStore/**","/resend-otp/**","/verify/**").permitAll().requestMatchers("/admin/**").hasAnyAuthority("ADMIN","SCOPE_ADMIN").anyRequest().authenticated());
         https.httpBasic(Customizer.withDefaults());
         https.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return https.build();

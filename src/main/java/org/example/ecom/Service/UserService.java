@@ -1,5 +1,7 @@
 package org.example.ecom.Service;
 
+import jakarta.mail.MessagingException;
+import org.example.ecom.Entity.ApiResponse;
 import org.example.ecom.Entity.ForUser.Address;
 import org.example.ecom.Entity.ForUser.User;
 import org.example.ecom.Exceptions.UserException;
@@ -16,4 +18,6 @@ public interface UserService {
     public List<Address> getAllAddress(String username) throws UserException;
     public String deleteAddress(String username,Long id) throws UserException;
     public User updateUser(User user);
+    public ApiResponse verifyOtp(Long userId,String otp) throws MessagingException;
+    public ApiResponse generateNewOtp(Long userId) throws MessagingException;
 }

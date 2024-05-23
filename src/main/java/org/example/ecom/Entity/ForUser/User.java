@@ -37,6 +37,9 @@ public class User implements UserDetails {
     private String email;
     private String role;
     private String mobile;
+    private String verifyToken;
+    private LocalDateTime verifyTokenExp;
+    private Boolean isActive;
     @OneToOne
     @JsonIgnore
     private Address activeAddress;
@@ -87,7 +90,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive;
     }
 
     public User(String firstName, String lastName, String password, String email, String mobile) {
@@ -97,5 +100,6 @@ public class User implements UserDetails {
         this.email = email;
         this.role = "USER";
         this.mobile = mobile;
+        this.isActive=false;
     }
 }
